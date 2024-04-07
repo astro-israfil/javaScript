@@ -1,1 +1,2 @@
-# javaScript
+# JavaScript
+Learning JavaScrit by Practice
