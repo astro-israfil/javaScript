@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>setInterval</title>
+    <style>
+        body {
+            background-color: #323232;
+            color: #cfcfcf;
+            margin: 0;
+            padding: 0;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .clock {
+            color: orange;
+            font-size: 4rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>
+            Stop Watch
+        </h1>
+        <h3 class="clock">
+            <span id="hr">00</span> :
+            <span id="min">00</span> :
+            <span id="sec">00</span>
+        </h3>
+        <div class="btn-container">
+            <button class="start-btn">Start</button>
+            <button class="stop-btn">Stop</button>
+            <button class="reset-btn">Reset</button>
+        </div>
+    </div>
+
+    <script>
+        const hoursEl = document.getElementById("hr");
+        const minutesEl = document.getElementById("min");
+        const secondsEl = document.getElementById("sec");
+        const startBtn = document.querySelector(".start-btn");
+        const stopBtn = document.querySelector(".stop-btn");
+        const resetBtn = document.querySelector(".reset-btn");
+
+        let hours = 0;
+        let minutes = 0;
+        let secounds = 0;
+
+        let intervalId;
+
+        function updateTime () {
+            if (secounds === 59) {
+                secounds = 0;
+                if (minutes === 59) {
+                    minutes = 0;
+                    hours++;
+                } else {
+                    minutes++;
+                }
+            } else {
+                secounds++;
+            }
+        }
+
+        function startClock() {
+            if (!intervalId) {
+                intervalId = setInterval(function () {
+                    updateTime();
+                    renderTheTime();
+                }, 1000);
+            }
+        }
+
+        function stopClock() {
+            if (intervalId) {
+                clearInterval(intervalId);
+                intervalId = null;
+            }
+        }
+
+        function resetClock() {
+            hours = 0;
+            minutes = 0;
+            secounds = 0;
+            renderTheTime();
+            if (intervalId) {
+                clearInterval(intervalId);
+                intervalId = null;
+            }
+        }
+
+        function renderTheTime() {
+            hoursEl.innerText = hours.toString.length > 1 ? hours : "0" + hours;
+            minutesEl.innerText = minutes.toString().length > 1 ? minutes : "0" + minutes;
+            secondsEl.innerText = secounds.toString().length > 1 ? secounds : "0" + secounds; 
+        }
+
+        
+        startBtn.addEventListener("click", startClock, false);
+        stopBtn.addEventListener("click", stopClock, false);
+        resetBtn.addEventListener("click", resetClock, false);
+    </script>
+</body>
+</html>
