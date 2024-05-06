@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XMLHttpRequest</title>
+</head>
+<body style="background-color: #212121; color: #f2f3f2;">
+    <h1>XHMHttpRequest State</h1>
+    <pre>
+        0	UNSENT	Client has been created. open() not called yet.
+        1	OPENED	open() has been called.
+        2	HEADERS_RECEIVED	send() has been called, and headers and status are available.
+        3	LOADING	Downloading; responseText holds partial data.
+        4	DONE	The operation is complete.
+    </pre>
+
+    <h3>Fetch date by XMLHttpRequest <button id="data-btn">Click Here</button></h3>
+    <div id="data">
+
+    </div>
+
+    <script>
+        const dataBtn = document.getElementById("data-btn");
+        const requestURL = "https://api.github.com/users/astro-israfil";
+        const dataEl = document.getElementById("data");
+        
+
+        function fetchData(requestURL) {
+            const xhr = new XMLHttpRequest();
+            xhr.open("GET", requestURL);
+            console.log(xhr.readyState);
+            xhr.onreadystatechange = function () {
+                console.log(this.readyState);
+                if (this.readyState === 4) {
+                    const data = JSON.parse(this.responseText);
+                    renderData(data);
+                }
+            }
+            xhr.send();
+        }
+
+        function renderData({avatar_url, login}) {
+            const h2 = document.createElement("h2");
+            h2.innerText = login;
+            const img = document.createElement("img");
+            img.setAttribute("src", avatar_url);
+            img.setAttribute("width", "200");
+            console.log(dataEl.children);
+            if (!Array.from(dataEl.children).length) {
+                dataEl.appendChild(h2);
+                dataEl.appendChild(img);
+            }
+        }
+
+
+        dataBtn.addEventListener("click", () => {fetchData (requestURL)}, false);
+    </script>
+</body>
+</html>
