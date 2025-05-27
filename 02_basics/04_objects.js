@@ -50,3 +50,7 @@ const userDetails = { ...userPersonalDetails, ...userProfessionalDetails };
 
 
 console.log(user.hasOwnProperty("email"));
+
+console.log(Object.keys(user))
+console.log(Object.values(user));
+console.log(Object.entries(user));
